@@ -22,7 +22,11 @@ public class Application {
 
         System.out.println();
 
-        vectorArray.addObject(1, "Object4");
+        try {
+            vectorArray.addObject(1, "Object4");
+        }catch(IndexOutOfBoundsException ex) {
+            ex.printStackTrace();
+        }
 
         for(Object object : vectorArray.getArray()) {
             try {
@@ -46,8 +50,11 @@ public class Application {
 
         System.out.println();
 
-        //try-catch
-        System.out.println(vectorArray.elementAt(1).toString());
+        try {
+            System.out.println(vectorArray.elementAt(1).toString());
+        }catch(IndexOutOfBoundsException ex) {
+            ex.printStackTrace();
+        }
 
         System.out.println();
 

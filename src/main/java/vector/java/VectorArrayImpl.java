@@ -11,19 +11,15 @@ public class VectorArrayImpl implements VectorArray {
     }
 
     @Override
-    public boolean addObject(int index, Object element) {
+    public boolean addObject(int index, Object element) throws IndexOutOfBoundsException {
         Object[] copyArray = new Object[array.length + 1];
 
-        try {
             System.arraycopy(array, 0, copyArray, 0, index);
             copyArray[index] = element;
 
             System.arraycopy(array, index, copyArray, index + 1, array.length - index);
             array = copyArray;
 
-        } catch(IndexOutOfBoundsException ex) {
-            System.out.println(ex.getMessage());
-        }
         return array[index].equals(element);
     }
 
@@ -43,7 +39,7 @@ public class VectorArrayImpl implements VectorArray {
     }
 
     @Override
-    public Object elementAt(int index) {
+    public Object elementAt(int index) throws IndexOutOfBoundsException {
         return array[index];
     }
 
@@ -53,20 +49,15 @@ public class VectorArrayImpl implements VectorArray {
         Object[] copyArray = new Object[array.length - 1];
         Object removedObject = array[index];
 
-        try {
-            System.arraycopy(array, 0, copyArray, 0, index);
-            System.arraycopy(array, index + 1, copyArray, index, array.length - index - 1);
-            array = copyArray;
+        System.arraycopy(array, 0, copyArray, 0, index);
+        System.arraycopy(array, index + 1, copyArray, index, array.length - index - 1);
+        array = copyArray;
 
-            return removedObject;
-        } catch(IndexOutOfBoundsException ex) {
-            System.out.println(ex.getMessage());
-        }
-        return null;
+        return removedObject;
     }
 
     @Override
-    public boolean remove(Object o) {
+    public boolean remove(Object o) throws RuntimeException{
 
         Object[] copyArray = new Object[array.length - 1];
         int indexOfElementToBeRemoved = 0;
@@ -79,24 +70,20 @@ public class VectorArrayImpl implements VectorArray {
             }
         }
 
-        try {
-            System.arraycopy(array, 0, copyArray, 0, indexOfElementToBeRemoved);
-            System.arraycopy(array, indexOfElementToBeRemoved + 1, copyArray, indexOfElementToBeRemoved, array.length - indexOfElementToBeRemoved - 1);
-            array = copyArray;
-        } catch(IndexOutOfBoundsException ex) {
-            System.out.println(ex.getMessage());
-        }finally {
-            for(Object object : array) {
-                try {
-                    if (object.equals(o)) {
-                        objectExists = true;
-                        break;
-                    }
-                }catch(NullPointerException ex) {
+        System.arraycopy(array, 0, copyArray, 0, indexOfElementToBeRemoved);
+        System.arraycopy(array, indexOfElementToBeRemoved + 1, copyArray, indexOfElementToBeRemoved, array.length - indexOfElementToBeRemoved - 1);
+        array = copyArray;
+
+        for(Object object : array) {
+            try {
+                if (object.equals(o)) {
+                    objectExists = true;
+                    break;
+                }
+            }catch(NullPointerException ex) {
                     break;
                 }
             }
-        }
         return !objectExists;
     }
 
